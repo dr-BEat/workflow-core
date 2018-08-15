@@ -72,10 +72,28 @@ namespace WorkflowCore.Interface
         /// Map properties on the step to properties on the workflow data object before the step executes
         /// </summary>
         /// <typeparam name="TInput"></typeparam>
+        /// <param name="stepPropertySetter">Property on the step</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        IStepBuilder<TData, TStepBody> Input<TInput>(Action<TStepBody, TInput> stepPropertySetter, Func<TData, TInput> value);
+
+        /// <summary>
+        /// Map properties on the step to properties on the workflow data object before the step executes
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
         /// <param name="stepProperty">The property on the step</param>
         /// <param name="value"></param>
         /// <returns></returns>
         IStepBuilder<TData, TStepBody> Input<TInput>(Expression<Func<TStepBody, TInput>> stepProperty, Expression<Func<TData, IStepExecutionContext, TInput>> value);
+
+        /// <summary>
+        /// Map properties on the step to properties on the workflow data object before the step executes
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <param name="stepPropertySetter">The property on the step</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        IStepBuilder<TData, TStepBody> Input<TInput>(Action<TStepBody, TInput> stepPropertySetter, Func<TData, IStepExecutionContext, TInput> value);
 
         /// <summary>
         /// Map properties on the workflow data object to properties on the step after the step executes
@@ -85,6 +103,15 @@ namespace WorkflowCore.Interface
         /// <param name="value"></param>
         /// <returns></returns>
         IStepBuilder<TData, TStepBody> Output<TOutput>(Expression<Func<TData, TOutput>> dataProperty, Expression<Func<TStepBody, object>> value);
+
+        /// <summary>
+        /// Map properties on the workflow data object to properties on the step after the step executes
+        /// </summary>
+        /// <typeparam name="TOutput"></typeparam>
+        /// <param name="dataPropertySetter">Property on the data object</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        IStepBuilder<TData, TStepBody> Output<TOutput>(Action<TData, TOutput> dataPropertySetter, Func<TStepBody, TOutput> value);
 
         /// <summary>
         /// Wait here until to specified event is published
