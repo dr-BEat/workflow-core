@@ -207,5 +207,16 @@ namespace WorkflowCore.Persistence.EntityFramework
 
             return result;
         }
+
+        internal static ExecutionError ToExecutionError(this PersistedExecutionError instance)
+        {
+            return new ExecutionError
+            {
+                WorkflowId = instance.WorkflowId,
+                ErrorTime = instance.ErrorTime,
+                ExecutionPointerId = instance.ExecutionPointerId,
+                Message = instance.Message,
+            };
+        }
     }
 }

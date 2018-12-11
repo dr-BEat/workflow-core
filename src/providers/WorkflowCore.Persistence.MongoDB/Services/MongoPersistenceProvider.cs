@@ -209,5 +209,15 @@ namespace WorkflowCore.Persistence.MongoDB.Services
             if (errors.Any())
                 await ExecutionErrors.InsertManyAsync(errors);
         }
+
+        public async Task<IEnumerable<ExecutionError>> GetErrors()
+        {
+            return await ExecutionErrors.AsQueryable().ToListAsync();
+        }
+
+        public async Task<IEnumerable<ExecutionError>> GetErrors(string workflowId)
+        {
+            return await ExecutionErrors.Find(x => x.WorkflowId == workflowId).ToListAsync();
+        }
     }
 }

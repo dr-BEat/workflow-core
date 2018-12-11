@@ -41,6 +41,9 @@ namespace WorkflowCore.Interface
 
         Task PersistErrors(IEnumerable<ExecutionError> errors);
 
+        Task<IEnumerable<ExecutionError>> GetErrors();
+        Task<IEnumerable<ExecutionError>> GetErrors(string workflowId);
+
         void EnsureStoreExists();
 
     }

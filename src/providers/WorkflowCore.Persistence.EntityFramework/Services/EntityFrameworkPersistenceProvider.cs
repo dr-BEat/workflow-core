@@ -143,7 +143,7 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
                 await db.SaveChangesAsync();
             }
         }
-                
+
         public virtual void EnsureStoreExists()
         {
             using (var context = ConstructDbContext())
@@ -283,7 +283,27 @@ namespace WorkflowCore.Persistence.EntityFramework.Services
                 }
             }
         }
-        
+
+        public async Task<IEnumerable<ExecutionError>> GetErrors()
+        {
+            using (var db = ConstructDbContext())
+            {
+                var raw = await db.Set<PersistedExecutionError>().ToListAsync();
+                return raw.Select(x => x.ToExecutionError()).ToList();
+            }
+        }
+
+        public async Task<IEnumerable<ExecutionError>> GetErrors(string workflowId)
+        {
+            using (var db = ConstructDbContext())
+            {
+                var raw = await db.Set<PersistedExecutionError>()
+                                  .Where(x => x.WorkflowId == workflowId)
+                                  .ToListAsync();
+                return raw.Select(x => x.ToExecutionError()).ToList();
+            }
+        }
+
         private WorkflowDbContext ConstructDbContext()
         {
             return _contextFactory.Build();

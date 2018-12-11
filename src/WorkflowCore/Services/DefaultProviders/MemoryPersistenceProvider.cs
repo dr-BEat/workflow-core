@@ -186,12 +186,29 @@ namespace WorkflowCore.Services
 
         public async Task PersistErrors(IEnumerable<ExecutionError> errors)
         {
-            lock (errors)
+            lock (_errors)
             {
                 _errors.AddRange(errors);
             }
         }
+
+        public async Task<IEnumerable<ExecutionError>> GetErrors()
+        {
+            lock (_errors)
+            {
+                return _errors.ToList();
+            }
+        }
+
+        public async Task<IEnumerable<ExecutionError>> GetErrors(string workflowId)
+        {
+            lock (_errors)
+            {
+                return _errors.Where(x => x.WorkflowId == workflowId)
+                              .ToList();
+            }
+        }
     }
 
-    #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 }
